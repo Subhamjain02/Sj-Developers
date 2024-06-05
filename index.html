@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Carousel with Logo</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <style>
+
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar container fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNavDropdown">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link " href="#">Pricing</a>
+          </li>
+          <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        camera.position.z = 5;
+
+        // Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
+directionalLight.position.set(5, 10, 7.5);
+scene.add(directionalLight);
+
+        const loader = new GLTFLoader();
+        let logo;
+        loader.load('logo.gltf', (gltf) => {
+            logo = gltf.scene;
+            logo.position.set(0, 0, 0);
+            logo.scale.set(40, 40, 40);
+            scene.add(logo);
+        }, undefined, (error) => {
+            console.error(error);
+        });
+
+        const images = [];
+        const imageCount = 8; // Number of images in the carousel
+        const radius = 2.5; // Radius of the carousel
+
+        for (let i = 0; i < imageCount; i++) {
+            const texture = new THREE.TextureLoader().load(`assets/image2.jpg`);
+            const material = new THREE.MeshBasicMaterial({ map: texture });
+            const geometry = new THREE.PlaneGeometry(1.3, 1);
+            const mesh = new THREE.Mesh(geometry, material);
+
+            const angle = (i / imageCount) * Math.PI * 2;
+            const x = radius * Math.cos(angle);
+            const z = radius * Math.sin(angle);
+            const y = -0.7*Math.sin(angle); // Tilted axis
+
+            mesh.position.set(x, y, z);
+            images.push(mesh);
+            scene.add(mesh);
+        }
+
+        let scrollFactor = 0;
+
+        window.addEventListener('scroll', () => {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            scrollFactor = window.scrollY / maxScroll;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const rotationSpeed = scrollFactor ; // Adjust speed as needed
+
+            // Rotate the logo
+            if (logo) {
+                logo.rotation.y = -(rotationSpeed * Math.PI * 3);
+            }
+
+            // Rotate the carousel
+            images.forEach((image, index) => {
+                const angle = (scrollFactor + index * (1 / imageCount)) * Math.PI * 2;
+                const x = radius * Math.cos(angle);
+                const z = radius * Math.sin(angle);
+                const y = -0.7 * Math.sin(angle); // Tilted axis
+
+                image.position.set(x, y, z);
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
