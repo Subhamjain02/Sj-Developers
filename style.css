@@ -1,2 +1,68 @@
-body { margin: 0; height: 200vh; }
-canvas { display: block; position: fixed; }
+*{
+    font-family: "Playfair Display", serif;
+}
+
+body {
+  margin: 0;
+  height: 200vh;
+  background-color: #71A274;
+}
+canvas {
+  display: block;
+  position: fixed;
+  background-color: #71A274;
+}
+
+nav{
+    background-color: #71A274;
+}
+
+.explore{
+    width: 11rem;
+    background-color: #263A99;
+}
+.navbar-brand{
+    color: #EBE2BE;
+}
+
+.nav-link{
+ color: black !important;
+}
+
+.dropdown-menu{
+    background-color: #263A99 !important;
+
+}
+
+
+.right{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+
+}
+
+img{
+    width: 15rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
