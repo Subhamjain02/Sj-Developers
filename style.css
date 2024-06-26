@@ -1,11 +1,12 @@
 *{
     font-family: "Playfair Display", serif;
+
+
 }
 
 body {
   margin: 0;
   height: 200vh;
-  background-color: #71A274;
 }
 canvas {
   display: block;
@@ -22,7 +23,7 @@ nav{
     background-color: #263A99;
 }
 .navbar-brand{
-    color: #EBE2BE;
+    color: #EBE2BE !important;
 }
 
 .nav-link{
@@ -65,4 +66,17 @@ img{
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    .explore{
+      width: 8rem;
+    }
+
+   
+
+    img{
+      width: 30%;
+    }
   }
