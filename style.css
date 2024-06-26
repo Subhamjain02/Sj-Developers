@@ -1,7 +1,5 @@
 *{
     font-family: "Playfair Display", serif;
-
-
 }
 
 body {
@@ -46,6 +44,10 @@ nav{
 
 img{
     width: 15rem;
+}
+
+.dropdown-item{
+  color: white;
 }
 
 /* width */
